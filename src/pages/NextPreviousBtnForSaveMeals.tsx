@@ -70,7 +70,7 @@ const NextPreviousBtnForSaveMeals = () => {
         <Link
          onClick={()=>goNext()}
          to={`/recipes/${nextTitle?.replace(/\s/g, '').replace(/\//g, '')}`}>
-        <div className="z-10 w-[35px] absolute right-[15px]
+        <div className="z-10 w-[35px] absolute right-[0px]
         sm:fixed sm:right-0 sm:top-0 sm:flex sm:flex-col sm:justify-center sm:items-center sm:h-[100vh] sm:bg-gradient-to-t sm:from-white sm:via-purple-100 sm:to-white sm:from-20% sm:via-50% sm:to-80%
         sm:w-[2.5vw]
         hover:cursor-pointer hover:via-purple-200"
