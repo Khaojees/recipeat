@@ -53,10 +53,12 @@ const initStore = {
     type setShowFilterType = {
       myFilter: boolean
       toggleFilter: () => void,
+      toggleFilterOff: () => void,
     }
     export const setShowFilter = create<setShowFilterType>((set)=>({
       myFilter:false,
-      toggleFilter: () => set((state)=>({myFilter:!state.myFilter}))
+      toggleFilter: () => set((state)=>({myFilter:!state.myFilter})),
+      toggleFilterOff: () => set({myFilter:false})
     }))
     
     type setShowSearchType = {
@@ -109,6 +111,7 @@ const initStore = {
       setSortCookingTimeType: (value:boolean) => void,
       setSortHealthType: (value:boolean) => void,
       setMealsTemp: (value:ImealsData[]) => void,
+      setClearSortState: () => void,
       saveMealsItem: ImealsData[],
       setSaveMealsItem: (value:ImealsData[]) => void,
     }
@@ -127,6 +130,14 @@ const initStore = {
       setSortPriceType: (value) => set({sortPriceType:value}),
       setSortCookingTimeType: (value) => set({sortCookingTimeType:value}),
       setSortHealthType: (value) => set({sortHealthType:value}),
+      setClearSortState: () => set({
+        price: false,
+        cookingTime: false,
+        health: false,
+        sortPriceType: true,
+        sortCookingTimeType: true,
+        sortHealthType: true,
+      }),
         setMealsTemp: (value:ImealsData[]) => set({mealsTemp:value}),
         saveMealsItem: [],
       setSaveMealsItem: (value:ImealsData[]) => set({saveMealsItem:value}),

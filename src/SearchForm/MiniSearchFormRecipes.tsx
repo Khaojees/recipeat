@@ -19,7 +19,7 @@ function MiniSearchFormRecipes() {
     fieldDietsValue,
     submit,
   } = useSearchForm();
-  const { myFilter, toggleFilter } = setShowFilter();
+  const { myFilter, toggleFilter,toggleFilterOff } = setShowFilter();
 
   return (
     <div
@@ -165,7 +165,8 @@ function MiniSearchFormRecipes() {
                 className="flex justify-center items-center ml-[10px] h-[40px] w-[40px] rounded-[10px] bg-white hover:cursor-pointer"
                 >
                 <Link to={"/homepage"}
-                onClick={()=>showSearch()}>
+                onClick={()=>{showSearch()
+                  toggleFilterOff()}}>
                   <div className="flex justify-center items-center text-[1.3em] text-[#ff4087]">
                     <RiArrowGoBackLine />
                   </div>
@@ -174,7 +175,8 @@ function MiniSearchFormRecipes() {
               {/* ------------------------save------------------- */}
             <Link
             to={"/saveMeals"}
-            onClick={()=>hideMyMeals()}>
+            onClick={()=>{hideMyMeals()
+              toggleFilterOff()}}>
             <div className="flex relative">
               <div
                 className="flex justify-center items-center ml-[10px] h-[40px] w-[40px] rounded-[10px] bg-white hover:cursor-pointer"

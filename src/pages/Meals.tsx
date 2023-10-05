@@ -6,12 +6,13 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import { FaLongArrowAltUp,FaLongArrowAltDown } from "react-icons/fa";
 import { useEffect, useState} from 'react';
-import {setSortState,setShowMeals,useCurrentMeal,useMealsListStore,setShowNexrPrevBtn} from '@/store/mealsStore'
+import {setSortState,setShowMeals,useCurrentMeal,useMealsListStore,setShowNexrPrevBtn,setShowFilter} from '@/store/mealsStore'
 import heartIcon from "@/assets/heartIcon.svg";
 import heartIconSave from "@/assets/heartIconSaved.svg";
 function Meals() {
+      const {toggleFilterOff} = setShowFilter()
       const {showMyMeals} = setShowMeals()
-      const { meals } = useMealsListStore()
+      const { meals, fetchMeals } = useMealsListStore()
       const {setCurrentMeal} = useCurrentMeal()
       const {showNextPrevBtnForMeals} = setShowNexrPrevBtn()      
       // const [hideHeart,setHideHeart] = useState(true)
@@ -28,8 +29,8 @@ function Meals() {
             setSortCookingTimeType,
             sortHealthType,
             setSortHealthType,
-            // clearSortSetting,
-            mealsTemp,setMealsTemp
+            mealsTemp,setMealsTemp,
+            setClearSortState,
       } = setSortState()
       const [showHeart,setShowHeart] = useState(saveMealsItem.map((e)=>{return e.id}))
 
@@ -128,6 +129,11 @@ function Meals() {
             }
       },[price,cookingTime,health,sortPriceType,sortCookingTimeType,sortHealthType])
 
+      const clearSort=()=>{
+            setClearSortState()
+            setMealsTemp(fetchMeals.data)
+      }
+
   return (
       <div>
             <ScrollToTop />
@@ -155,11 +161,11 @@ function Meals() {
                         {!sortHealthType && <FaLongArrowAltUp/>}
                         {sortHealthType && <FaLongArrowAltDown/>}
                         </button>
-                  {/* <button className={`flex items-center px-[10px] py-[5px] mx-[5px] bg-red-500 text-[0.8em] text-white h-[28px] rounded-[5px] active:bg-red-600`}
+                  <button className={`flex items-center px-[10px] py-[5px] mx-[5px] bg-red-500 text-[0.8em] text-white h-[28px] rounded-[5px] active:bg-red-600`}
                   onClick={()=>clearSort()}
                   >
                         Clear
-                        </button> */}
+                        </button>
             </div>
       <div className='flex flex-wrap justify-center items-center w-[100vw] mt-[10px]'>      
           {mealsTemp.map((item,index)=>{
@@ -172,7 +178,8 @@ function Meals() {
                                         </div>
                               <Link
                         to={`/recipes/${item.title?.replace(/\s/g, '').replace(/\//g, '')}`}                
-                        onClick={()=>setMealState(item)}
+                        onClick={()=>{setMealState(item)
+                              toggleFilterOff()}}
                         >
                             <div
                             className='flex flex-col w-[320px] h-[350px] my-[12px] relative drop-shadow-md rounded-[5px]

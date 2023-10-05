@@ -1,10 +1,11 @@
 
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 import { Link} from 'react-router-dom'
-import {useCurrentMeal,setSortState} from '@/store/mealsStore'
+import {useCurrentMeal,setSortState,setShowFilter} from '@/store/mealsStore'
 import { useEffect, useState } from "react";
 
 const NextPreviousBtnForSaveMeals = () => {
+  const {toggleFilterOff} = setShowFilter()
       const {saveMealsItem} = setSortState()
       const {currentMeal,setCurrentMeal} = useCurrentMeal()
       const nextItem = ()=>{
@@ -48,7 +49,8 @@ const NextPreviousBtnForSaveMeals = () => {
   return (
     <div className="flex w-[100vw] justify-between items-start relative">
       <Link
-      onClick={()=>goPrevious()}
+      onClick={()=>{goPrevious()
+        toggleFilterOff()}}
       to={`/recipes/${previousTitle?.replace(/\s/g, '').replace(/\//g, '')}`}>
         <div className="z-10 w-[35px] absolute left-[0px]
         sm:fixed sm:left-0 sm:top-0 sm:flex sm:flex-col sm:justify-center sm:items-center sm:h-[100vh] sm:bg-gradient-to-t sm:from-white sm:via-purple-100 sm:to-white sm:from-20% sm:via-50% sm:to-80%
@@ -68,7 +70,8 @@ const NextPreviousBtnForSaveMeals = () => {
         </Link>
         
         <Link
-         onClick={()=>goNext()}
+         onClick={()=>{goNext()
+          toggleFilterOff()}}
          to={`/recipes/${nextTitle?.replace(/\s/g, '').replace(/\//g, '')}`}>
         <div className="z-10 w-[35px] absolute right-[0px]
         sm:fixed sm:right-0 sm:top-0 sm:flex sm:flex-col sm:justify-center sm:items-center sm:h-[100vh] sm:bg-gradient-to-t sm:from-white sm:via-purple-100 sm:to-white sm:from-20% sm:via-50% sm:to-80%

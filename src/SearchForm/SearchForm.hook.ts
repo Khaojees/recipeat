@@ -3,14 +3,21 @@ import { useForm } from "react-hook-form";
 import {
   useMealsListStore,
   setShowSearch,
+  setShowFilter,
 } from "@/store/mealsStore";
 import { ImealsData } from "@/interface/mealsInterface";
+import { useEffect } from "react";
 
 export const useSearchForm = () => {
-  const { hideSearch } = setShowSearch();
+  const { register, handleSubmit, watch } = useForm();
+  const searchFilterValue= watch("searchValue")
+  const mealsFilterValue= watch("mealsValue")
+  const cuisinesFilterValue= watch("cuisinesValue")
+  const dietsFilterValue= watch("dietsValue")
 
-  const { setMealsList, fetchMeals } = useMealsListStore();
-  const { register, handleSubmit } = useForm();
+  const { hideSearch } = setShowSearch();
+  const {toggleFilterOff} = setShowFilter()
+  const { setMealsList, fetchMeals } = useMealsListStore();  
   const filterData = (
     fmeals: ImealsData[],
     cuisinesValue: string,
@@ -97,32 +104,59 @@ export const useSearchForm = () => {
     return Promise.resolve(huhuhu);
   };
 
-  const onSubmit = async (e: any) => {
-    setMealsList({
-      data: [],
-      loading: true,
-      error: null,
-    });
-    let cuisinesValue = e.cuisinesValue;
-    let dietsValue = e.dietsValue;
-    let mealsValue = e.mealsValue;
-    let searchValue = e.searchValue;
+  const onSubmit = async () => {
+    // setMealsList({
+    //   data: [],
+    //   loading: true,
+    //   error: null,
+    // });
+    // let cuisinesValue = e.cuisinesValue;
+    // let dietsValue = e.dietsValue;
+    // let mealsValue = e.mealsValue;
+    // let searchValue = e.searchValue;
+    toggleFilterOff()
     hideSearch();
     // console.log(cuisinesValue, dietsValue, mealsValue, searchValue);
     // const filterMeals = await filterData(fetchMeals.data,cuisinesValue,dietsValue,mealsValue,searchValue);
 
-    setMealsList({
-      data: await filterData(
-        fetchMeals.data,
-        cuisinesValue,
-        dietsValue,
-        mealsValue,
-        searchValue
-      ),
-      loading: false,
-      error: null,
-    });
+    // setMealsList({
+    //   data: await filterData(
+    //     fetchMeals.data,
+    //     cuisinesValue,
+    //     dietsValue,
+    //     mealsValue,
+    //     searchValue
+    //   ),
+    //   loading: false,
+    //   error: null,
+    // });
   };
+
+  useEffect(()=>{
+    const onSubmitFilter = async () => {
+      setMealsList({
+        data: [],
+        loading: true,
+        error: null,
+      });
+      toggleFilterOff()
+      // console.log(cuisinesValue, dietsValue, mealsValue, searchValue);
+      // const filterMeals = await filterData(fetchMeals.data,cuisinesValue,dietsValue,mealsValue,searchValue);
+  
+      setMealsList({
+        data: await filterData(
+          fetchMeals.data,
+          cuisinesFilterValue,
+          dietsFilterValue,
+          mealsFilterValue,
+          searchFilterValue
+        ),
+        loading: false,
+        error: null,
+      });
+    };
+    onSubmitFilter()
+  },[searchFilterValue,mealsFilterValue,cuisinesFilterValue,dietsFilterValue])
 
   return {
     fieldSearchValue: register("searchValue"),

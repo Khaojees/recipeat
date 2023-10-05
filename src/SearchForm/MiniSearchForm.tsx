@@ -16,7 +16,7 @@ function MiniSearchForm() {
     fieldDietsValue,
     submit,
   } = useSearchForm();
-  const { myFilter, toggleFilter } = setShowFilter();
+  const { myFilter, toggleFilter,toggleFilterOff } = setShowFilter();
 
   return (
     <div
@@ -157,7 +157,8 @@ function MiniSearchForm() {
 
             <Link
             to={"/saveMeals"}
-            onClick={()=>hideMyMeals()}>
+            onClick={()=>{hideMyMeals()
+              toggleFilterOff()}}>
             <div className="flex relative">
               <div
                 className="flex justify-center items-center ml-[10px] h-[40px] w-[40px] rounded-[10px] bg-white hover:cursor-pointer"
